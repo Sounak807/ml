@@ -1,0 +1,36 @@
+import numpy as np
+from sklearn.linear_model import Perceptron
+
+def step(x):
+    return 1 if x>=0 else 0
+#Perceptron Class
+class Perceptron:
+    def __init__(self, weights, bias):
+        self.weights = np.array(weights)
+        self.bias = bias
+    def __call__(self,x):
+        total = np.dot(self.weights, x) + self.bias
+        return step(total)
+
+#Define Perceptrons For logic Gates
+
+#NAND GATE
+nand = Perceptron(weights = [-1,-1], bias = 1.5)
+
+#OR GATE
+or_gate = Perceptron(weights = [1,1], bias = -0.5)
+
+#AND GATE
+and_gate = Perceptron(weights = [1,1], bias = -1.5)
+
+#XOR Design
+def XOR(a,b):
+    h1 = nand([a,b])
+    h2 = or_gate([a,b])
+    output = and_gate([h1,h2])
+    return output
+
+#Test XOR
+for a in [0,1]:
+    for b in [0,1]:
+        print(f"XOR({a},{b}) = {XOR(a,b)}")
